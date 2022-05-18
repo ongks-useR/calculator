@@ -6,52 +6,80 @@
 }
 
 #container {
-    width: 400px;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 20px auto;
     background-color: black;
+    width: 340px;
+    border-radius: 5px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+}
+
+#window {
+    border: 1px solid white;
+    border-radius: 5px;
 }
 
 #display {
-    height: 80px;
-    border: 2px dotted gray;
-    border-radius: 10px;
+    height: 50px;
+    width: 335px;
+    font-size: 30px;
     color: white;
-    font-size: 40px;
     display: flex;
-    justify-content: right;
+    justify-content: flex-end;
     align-items: flex-end;
-    padding: 5px;
+    padding: 0 5px;
+}
+
+#answer {
+    height: 50px;
+    width: 335px;
+    font-size: 30px;
+    color: white;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 0 5px;
 }
 
 #keypad {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(5, 100px);
-    column-gap: 2px;
-    row-gap: 2px;
-    margin: 2px 0;
+    grid-template-columns: repeat(4, 80px);
+    grid-template-rows: repeat(5, 80px);
+    column-gap: 5px;
+    row-gap: 5px;
+}
+
+#span {
+    grid-column: 1 / span 2;
 }
 
 .key {
-    font-size: 40px;
-    border: 2px dotted gray;
-    border-radius: 10px;
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
 }
 
 img {
-    height: 40px;
+    height: 50px;
+    width: 50px;
 }
 
-.operator {
-    background-color: #F3C28E;
+.number {
+    color: white;
 }
 
 .special-operator {
     background-color: #EAECEE;
+    border: 1px solid #EAECEE;
+}
+
+.operator {
+    background-color: #F9890A;
+    border: 1px solid #F9890A;
 }

@@ -11,29 +11,32 @@
 
 <body>
     <div id="container">
-        <div id="display"></div>
+        <div id="window">
+            <div id="display"></div>
+            <div id="answer"></div>
+        </div>
         <div id="keypad">
-            <div class="key special-operator"><img id="reset" src="./icons/c-solid.svg" alt="reset"></div>
-            <div class="key special-operator"><img id="%" src="./icons/percent-solid.svg" alt="percent"></div>
-            <div class="key special-operator"><img id="del" src="./icons/delete-left-solid.svg" alt="delete number">
+            <div id="reset" class="key special-operator"><img src="./icons/c-solid.svg" alt="reset button"></div>
+            <div id="percent" class="key special-operator"><img src="./icons/percent-solid.svg" alt="percentage sign">
+            </div>
+            <div id="delete" class="key special-operator"><img src="./icons/delete-left-solid.svg" alt="delete button">
             </div>
             <div class="key operator"><img id="divide" src="./icons/divide-solid.svg" alt="divide button"></div>
-            <div class="key number" id="7">7</div>
-            <div class="key number" id="8">8</div>
-            <div class="key number" id="9">9</div>
+            <div class="number key">7</div>
+            <div class="number key">8</div>
+            <div class="number key">9</div>
             <div class="key operator"><img id="multiply" src="./icons/xmark-solid.svg" alt="multiply button"></div>
-            <div class="key number" id="4">4</div>
-            <div class="key number" id="5">5</div>
-            <div class="key number" id="6">6</div>
+            <div class="number key">4</div>
+            <div class="number key">5</div>
+            <div class="number key">6</div>
             <div class="key operator"><img id="subtract" src="./icons/minus-solid.svg" alt="subtract button"></div>
-            <div class="key number" id="1">1</div>
-            <div class="key number" id="2">2</div>
-            <div class="key number" id="3">3</div>
-            <div class="key operator"><img id="add" src="./icons/plus-solid.svg" alt="sum button"></div>
-            <div class="key number" id="00">00</div>
-            <div class="key number" id="0">0</div>
-            <div class="key number" id=".">.</div>
-            <div class="key operator"><img id="equal" src="./icons/equals-solid.svg" alt="equal button"></div>
+            <div class="number key">1</div>
+            <div class="number key">2</div>
+            <div class="number key">3</div>
+            <div class="key operator"><img id="sum" src="./icons/plus-solid.svg" alt="sum button"></div>
+            <div id="span" class="number key">0</div>
+            <div class="number key">.</div>
+            <div class="key operator"><img id="equal" src="./icons/equals-solid.svg" alt=""></div>
         </div>
     </div>
     <script src="./control.js"></script>
