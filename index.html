@@ -11,32 +11,34 @@
 
 <body>
     <div id="container">
-        <div id="window">
-            <div id="display"></div>
-            <div id="answer"></div>
+        <div id="display">
+            <p>12x2/5+100</p>
+            <p>1000</p>
         </div>
-        <div id="keypad">
-            <div id="reset" class="key special-operator"><img src="./icons/c-solid.svg" alt="reset button"></div>
-            <div id="percent" class="key special-operator"><img src="./icons/percent-solid.svg" alt="percentage sign">
+        <div id="keypads">
+            <div id="special-keys">
+                <div class="key">C</div>
+                <div class="key">CE</div>
+                <div class="key">%</div>
             </div>
-            <div id="delete" class="key special-operator"><img src="./icons/delete-left-solid.svg" alt="delete button">
+            <div id="numbers">
+                <div class="key number">7</div>
+                <div class="key number">8</div>
+                <div class="key number">9</div>
+                <div class="key operator">/</div>
+                <div class="key number">4</div>
+                <div class="key number">5</div>
+                <div class="key number">6</div>
+                <div class="key operator">x</div>
+                <div class="key number">1</div>
+                <div class="key number">2</div>
+                <div class="key number">3</div>
+                <div class="key operator">-</div>
+                <div class="key number">0</div>
+                <div class="key number">.</div>
+                <div class="key" id="blue">=</div>
+                <div class="key operator">+</div>
             </div>
-            <div class="key operator"><img id="divide" src="./icons/divide-solid.svg" alt="divide button"></div>
-            <div class="number key">7</div>
-            <div class="number key">8</div>
-            <div class="number key">9</div>
-            <div class="key operator"><img id="multiply" src="./icons/xmark-solid.svg" alt="multiply button"></div>
-            <div class="number key">4</div>
-            <div class="number key">5</div>
-            <div class="number key">6</div>
-            <div class="key operator"><img id="subtract" src="./icons/minus-solid.svg" alt="subtract button"></div>
-            <div class="number key">1</div>
-            <div class="number key">2</div>
-            <div class="number key">3</div>
-            <div class="key operator"><img id="sum" src="./icons/plus-solid.svg" alt="sum button"></div>
-            <div id="span" class="number key">0</div>
-            <div class="number key">.</div>
-            <div class="key operator"><img id="equal" src="./icons/equals-solid.svg" alt=""></div>
         </div>
     </div>
     <script src="./control.js"></script>
