@@ -5,21 +5,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome | CALCULATOR</title>
+    <title>Welcome | My Calculator</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div id="container">
         <div id="display">
-            <p>12x2/5+100</p>
-            <p>1000</p>
+            <p id="user-input"></p>
+            <p id="calculate"></p>
         </div>
         <div id="keypads">
             <div id="special-keys">
-                <div class="key">C</div>
-                <div class="key">CE</div>
-                <div class="key">%</div>
+                <div class="key reset">C</div>
+                <div class="key delete">CE</div>
+                <div class="key percentage">%</div>
             </div>
             <div id="numbers">
                 <div class="key number">7</div>
@@ -34,9 +34,9 @@
                 <div class="key number">2</div>
                 <div class="key number">3</div>
                 <div class="key operator">-</div>
-                <div class="key number">0</div>
-                <div class="key number">.</div>
-                <div class="key" id="blue">=</div>
+                <div class="key number zero">0</div>
+                <div class="key number decimal">.</div>
+                <div class="key" id="equal">=</div>
                 <div class="key operator">+</div>
             </div>
         </div>
