@@ -2,6 +2,7 @@
 let firstNumber = '';
 let operator = '';
 let secondNumber = '';
+let calculation = '';
 
 // Events setting
 
@@ -74,11 +75,12 @@ operators.forEach(op => op.addEventListener('click', e => {
         operator = e.target.textContent;
         userInput.textContent = `${firstNumber} ${operator}`;
     }
-    else if (result.textContent) {
+    else if (calculation) {
         firstNumber = result.textContent;
         operator = e.target.textContent;
         secondNumber = '';
-        userInput.textContent = `${firstNumber} ${operator}`
+        userInput.textContent = `${firstNumber} ${operator}`;
+        calculation = '';
     }
     else {
         return;
@@ -91,8 +93,9 @@ const del = document.querySelector('.delete');
 del.addEventListener('click', e => {
 
     const userInput = document.querySelector('#user-input');
+    const result = document.querySelector('#calculate');
 
-    if (secondNumber && typeof secondNumber === 'string') {
+    if (secondNumber) {
         secondNumber = secondNumber.slice(0, -1)
 
         if (secondNumber) {
@@ -106,12 +109,12 @@ del.addEventListener('click', e => {
         operator = '';
         userInput.textContent = firstNumber;
     }
-    else if (firstNumber && typeof firstNumber === 'string') {
+    else if (firstNumber) {
         firstNumber = firstNumber.slice(0, -1)
         userInput.textContent = firstNumber;
     }
     else {
-        return;
+        result.textContent = '';
     }
 })
 
@@ -225,13 +228,30 @@ equal.addEventListener('click', e => {
 
     const result = document.querySelector('#calculate');
 
-    if (secondNumber && typeof secondNumber === 'string') {
-        firstNumber = firstNumber.endsWith('%') ? +firstNumber.slice(0, -1) / 100.0 : +firstNumber;
-        secondNumber = secondNumber.endsWith('%') ? +secondNumber.slice(0, -1) / 100.0 : +secondNumber;
+    if (secondNumber) {
+        let a = firstNumber.endsWith('%') ? +firstNumber.slice(0, -1) / 100.0 : +firstNumber;
+        let b = secondNumber.endsWith('%') ? +secondNumber.slice(0, -1) / 100.0 : +secondNumber;
 
-        result.textContent = operate(firstNumber, operator, secondNumber)
+        result.textContent = operate(a, operator, b)
+        calculation = 'on'
     }
     else {
         return;
     }
 })
+
+// transition effect on any button
+const keys = document.querySelectorAll('.key');
+
+keys.forEach(key => key.addEventListener('click', function (e) {
+    this.classList.add('btn-click');
+
+    this.addEventListener('transitionend', function (e) {
+        if (e.propertyName === 'transform') {
+            this.classList.remove('btn-click');
+        }
+        else {
+            return;
+        }
+    })
+}))

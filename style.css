@@ -57,6 +57,7 @@
     align-items: center;
     border-radius: 4px;
     font-weight: 400;
+    transition: all 0.07s ease;
 }
 
 #equal {
@@ -80,7 +81,13 @@
 }
 
 .operator {
-    background-color: #dadce0;
+    background-color: rgba(255, 166, 0, 0.335);
     color: #202124;
-    border: 1px solid #dadce0;
+    border: 1px solid rgba(255, 166, 0, 0.335);
+}
+
+.btn-click {
+    transform: scale(1.05);
+    border: 1px solid red;
+    box-shadow: 0 0 1rem red;
 }
