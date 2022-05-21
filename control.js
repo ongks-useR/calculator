@@ -1,145 +1,257 @@
-const numbers = document.querySelectorAll('.number');
-const percent = document.querySelector('#percent');
-const reset = document.querySelector('#reset');
-const backspace = document.querySelector('#delete');
-const operators = document.querySelectorAll('.operator');
-const equal = document.querySelector('#equal');
+// Placeholders for First & Second number and Mathematics operators (ie: + | - | X | /)
+let firstNumber = '';
+let operator = '';
+let secondNumber = '';
+let calculation = '';
 
-let final = '';
-let answer = '';
-let temp = '';
+// Events setting
 
-numbers.forEach(number => number.addEventListener('click', e => {
-    const display = document.querySelector('#display');
-    final += e.target.textContent;
-    display.textContent = final;
-}))
+// ZERO '0' button
+const zero = document.querySelector('.zero');
 
-percent.addEventListener('click', e => {
-    const display = document.querySelector('#display');
-    final += '%';
-    display.textContent = final;
-})
+zero.addEventListener('click', e => {
 
-reset.addEventListener('click', e => {
-    const display = document.querySelector('#display');
-    const t = document.querySelector('#answer');
-
-    final = '';
-    answer = '';
-    temp = '';
-
-    display.textContent = final;
-    t.textContent = temp;
-})
-
-backspace.addEventListener('click', e => {
-    const display = document.querySelector('#display');
-    final = display.textContent.slice(0, -1);
-    display.textContent = final;
-})
-
-operators.forEach(operator => operator.addEventListener('click', e => {
-    const display = document.querySelector('#display');
-    const t = e.target.getAttribute('id');
-
-    switch (t) {
-        case ('divide'):
-            final += '/';
-            display.textContent = final;
-            break;
-
-        case ('multiply'):
-            final += 'x';
-            display.textContent = final;
-            break;
-
-        case ('subtract'):
-            final += '-';
-            display.textContent = final;
-            break;
-
-        case ('sum'):
-            final += '+';
-            display.textContent = final;
-            break;
-    }
-}))
-
-equal.addEventListener('click', e => {
-    const display = document.querySelector('#display');
-    const t = document.querySelector('#answer');
-
-    if (display.textContent.length !== 0) {
-
-        answer = display.textContent.replaceAll('+', '|+|')
-            .replaceAll('-', '|-|')
-            .replaceAll('x', '|x|')
-            .replaceAll('/', '|/|')
-            .split('|')
-
-        answer = answer.map((e, i) => {
-            if (i % 2 === 0) {
-                if (e.endsWith('%')) {
-                    e = +e.slice(0, 2) / 100.0;
-                    return e;
-                }
-                else if (e === '') {
-                    return;
-                }
-                else if (typeof +e === 'number') {
-                    return +e;
-                }
-            }
-            else {
-                return e;
-            }
-        })
-
-        let op = answer.filter(e => typeof e === 'string')
-
-        if (op.includes('+') || op.includes('-') || op.includes('x') || op.includes('/')) {
-            op.forEach(e => {
-
-                switch (e) {
-                    case '+':
-                        temp = answer[0] + answer[2];
-                        answer.splice(0, 3, temp);
-                        break;
-
-                    case '-':
-                        temp = answer[0] - answer[2];
-                        answer.splice(0, 3, temp);
-                        break;
-
-                    case 'x':
-                        temp = answer[0] * answer[2];
-                        answer.splice(0, 3, temp);
-                        break;
-
-                    case '/':
-                        if (answer[2] !== 0.0) {
-                            temp = answer[0] / answer[2];
-                            answer.splice(0, 3, temp);
-                        }
-                        break;
-                }
-            })
+    if (!operator) {
+        if (firstNumber.length === 1 && firstNumber.at(0) === '0') {
+            return;
         }
         else {
-            temp = answer[0];
-        }
+            firstNumber += e.target.textContent;
 
-        if (!isNaN(temp)) {
-            if (Number.isInteger(temp)) {
-                t.textContent = temp
-            }
-            else {
-                t.textContent = temp.toFixed(4);
-            }
+            const userInput = document.querySelector('#user-input');
+            userInput.textContent = firstNumber;
         }
-        else { return; }
-
     }
-    else { return; }
+    else {
+        if (secondNumber.length === 1 && secondNumber.at(0) === '0') {
+            return;
+        }
+        else {
+            secondNumber += e.target.textContent;
+
+            const userInput = document.querySelector('#user-input');
+            userInput.textContent = `${firstNumber} ${operator} ${secondNumber}`;
+        }
+    }
 })
+
+// decimal '.' button
+const decimal = document.querySelector('.decimal');
+
+decimal.addEventListener('click', e => {
+    if (!operator) {
+        if (!firstNumber || firstNumber.at(1) === '.') {
+            return;
+        }
+        else {
+            firstNumber += e.target.textContent;
+
+            const userInput = document.querySelector('#user-input');
+            userInput.textContent = firstNumber;
+        }
+    }
+    else {
+        if (secondNumber === '' || secondNumber.at(1) === '.') {
+            return;
+        }
+        else {
+            secondNumber += e.target.textContent;
+
+            const userInput = document.querySelector('#user-input');
+            userInput.textContent = `${firstNumber} ${operator} ${secondNumber}`;
+        }
+    }
+})
+
+// Maths operators button (+ | - | X | /)
+const operators = document.querySelectorAll('.operator');
+
+operators.forEach(op => op.addEventListener('click', e => {
+
+    const userInput = document.querySelector('#user-input');
+    const result = document.querySelector('#calculate');
+
+    if (firstNumber && !operator) {
+        operator = e.target.textContent;
+        userInput.textContent = `${firstNumber} ${operator}`;
+    }
+    else if (calculation) {
+        firstNumber = result.textContent;
+        operator = e.target.textContent;
+        secondNumber = '';
+        userInput.textContent = `${firstNumber} ${operator}`;
+        calculation = '';
+    }
+    else {
+        return;
+    }
+}))
+
+// delete button
+const del = document.querySelector('.delete');
+
+del.addEventListener('click', e => {
+
+    const userInput = document.querySelector('#user-input');
+    const result = document.querySelector('#calculate');
+
+    if (secondNumber) {
+        secondNumber = secondNumber.slice(0, -1)
+
+        if (secondNumber) {
+            userInput.textContent = `${firstNumber} ${operator} ${secondNumber}`;
+        }
+        else {
+            userInput.textContent = `${firstNumber} ${operator}`;
+        }
+    }
+    else if (operator && !secondNumber) {
+        operator = '';
+        userInput.textContent = firstNumber;
+    }
+    else if (firstNumber) {
+        firstNumber = firstNumber.slice(0, -1)
+        userInput.textContent = firstNumber;
+    }
+    else {
+        result.textContent = '';
+    }
+})
+
+// reset button >> reset everyting
+const reset = document.querySelector('.reset');
+
+reset.addEventListener('click', e => {
+    firstNumber = '';
+    operator = '';
+    secondNumber = '';
+
+    const userInput = document.querySelector('#user-input');
+    userInput.textContent = '';
+
+    const result = document.querySelector('#calculate');
+    result.textContent = '';
+})
+
+// number button (1 - 9 only)
+const numbers = document.querySelectorAll('.number');
+
+numbers.forEach(num => num.addEventListener('click', e => {
+    const userInput = document.querySelector('#user-input');
+    const result = document.querySelector('#calculate');
+
+    if (e.target.textContent === '0' || e.target.textContent === '.') {
+        return;
+    }
+    else {
+        if (!operator) {
+            firstNumber += e.target.textContent;
+            userInput.textContent = firstNumber;
+        }
+        else if (operator && !result) {
+            secondNumber += e.target.textContent;
+            userInput.textContent = `${firstNumber} ${operator} ${secondNumber}`;
+        }
+        else {
+            secondNumber += e.target.textContent;
+            userInput.textContent = `${firstNumber} ${operator} ${secondNumber}`;
+        }
+    }
+}))
+
+// percentage button
+
+const percentage = document.querySelector('.percentage');
+
+percentage.addEventListener('click', e => {
+    if (operator === '') {
+        if (firstNumber === '' || firstNumber.endsWith('%')) {
+            return;
+        }
+        else {
+            firstNumber += e.target.textContent;
+
+            const userInput = document.querySelector('#user-input');
+            userInput.textContent = firstNumber;
+        }
+    }
+    else {
+        if (secondNumber === '' || secondNumber.endsWith('%')) {
+            return;
+        }
+        else {
+            secondNumber += e.target.textContent;
+
+            const userInput = document.querySelector('#user-input');
+            userInput.textContent = `${firstNumber} ${operator} ${secondNumber}`;
+        }
+    }
+})
+
+// 'equal' button
+const equal = document.querySelector('#equal');
+
+equal.addEventListener('click', e => {
+
+    function operate(firstNumber, operator, secondNumber) {
+
+        let result = '';
+
+        switch (operator) {
+            case '+':
+                result = firstNumber + secondNumber;
+                return Number.isInteger(result) ? result : Number.parseFloat(result).toFixed(4);
+                break;
+
+            case '-':
+                result = firstNumber - secondNumber;
+                return Number.isInteger(result) ? result : Number.parseFloat(result).toFixed(4);
+                break;
+
+            case 'x':
+                result = firstNumber * secondNumber;
+                return Number.isInteger(result) ? result : Number.parseFloat(result).toFixed(4);
+                break;
+
+            case '/':
+                result = secondNumber === 0.0 ? 'ERROR' : firstNumber / secondNumber;
+                if (result !== 'ERROR') {
+                    result = Number.parseFloat(result).toFixed(4);
+                    return result;
+                }
+                else {
+                    return 'ERROR'
+                }
+                break;
+        }
+    }
+
+    const result = document.querySelector('#calculate');
+
+    if (secondNumber) {
+        let a = firstNumber.endsWith('%') ? +firstNumber.slice(0, -1) / 100.0 : +firstNumber;
+        let b = secondNumber.endsWith('%') ? +secondNumber.slice(0, -1) / 100.0 : +secondNumber;
+
+        result.textContent = operate(a, operator, b)
+        calculation = 'on'
+    }
+    else {
+        return;
+    }
+})
+
+// transition effect on any button
+const keys = document.querySelectorAll('.key');
+
+keys.forEach(key => key.addEventListener('click', function (e) {
+    this.classList.add('btn-click');
+
+    this.addEventListener('transitionend', function (e) {
+        if (e.propertyName === 'transform') {
+            this.classList.remove('btn-click');
+        }
+        else {
+            return;
+        }
+    })
+}))
