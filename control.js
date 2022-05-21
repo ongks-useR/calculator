@@ -10,7 +10,7 @@ const zero = document.querySelector('.zero');
 
 zero.addEventListener('click', e => {
 
-    if (operator === '') {
+    if (!operator) {
         if (firstNumber.length === 1 && firstNumber.at(0) === '0') {
             return;
         }
@@ -38,8 +38,8 @@ zero.addEventListener('click', e => {
 const decimal = document.querySelector('.decimal');
 
 decimal.addEventListener('click', e => {
-    if (operator === '') {
-        if (firstNumber === '' || firstNumber.at(1) === '.') {
+    if (!operator) {
+        if (!firstNumber || firstNumber.at(1) === '.') {
             return;
         }
         else {
@@ -68,13 +68,20 @@ const operators = document.querySelectorAll('.operator');
 operators.forEach(op => op.addEventListener('click', e => {
 
     const userInput = document.querySelector('#user-input');
+    const result = document.querySelector('#calculate');
 
-    if (firstNumber === '' || operator !== '') {
-        return;
-    }
-    else {
+    if (firstNumber && !operator) {
         operator = e.target.textContent;
         userInput.textContent = `${firstNumber} ${operator}`;
+    }
+    else if (result.textContent) {
+        firstNumber = result.textContent;
+        operator = e.target.textContent;
+        secondNumber = '';
+        userInput.textContent = `${firstNumber} ${operator}`
+    }
+    else {
+        return;
     }
 }))
 
@@ -82,29 +89,29 @@ operators.forEach(op => op.addEventListener('click', e => {
 const del = document.querySelector('.delete');
 
 del.addEventListener('click', e => {
-    if (secondNumber) {
+
+    const userInput = document.querySelector('#user-input');
+
+    if (secondNumber && typeof secondNumber === 'string') {
         secondNumber = secondNumber.slice(0, -1)
 
         if (secondNumber) {
-            const userInput = document.querySelector('#user-input');
             userInput.textContent = `${firstNumber} ${operator} ${secondNumber}`;
         }
         else {
-            const userInput = document.querySelector('#user-input');
             userInput.textContent = `${firstNumber} ${operator}`;
         }
     }
-    else if (operator) {
+    else if (operator && !secondNumber) {
         operator = '';
-
-        const userInput = document.querySelector('#user-input');
         userInput.textContent = firstNumber;
     }
-    else if (firstNumber) {
+    else if (firstNumber && typeof firstNumber === 'string') {
         firstNumber = firstNumber.slice(0, -1)
-
-        const userInput = document.querySelector('#user-input');
         userInput.textContent = firstNumber;
+    }
+    else {
+        return;
     }
 })
 
@@ -118,28 +125,32 @@ reset.addEventListener('click', e => {
 
     const userInput = document.querySelector('#user-input');
     userInput.textContent = '';
+
+    const result = document.querySelector('#calculate');
+    result.textContent = '';
 })
 
 // number button (1 - 9 only)
 const numbers = document.querySelectorAll('.number');
 
 numbers.forEach(num => num.addEventListener('click', e => {
-    const exclude = e.target.textContent === '0' || e.target.textContent === '.'
+    const userInput = document.querySelector('#user-input');
+    const result = document.querySelector('#calculate');
 
-    if (exclude) {
+    if (e.target.textContent === '0' || e.target.textContent === '.') {
         return;
     }
     else {
-        if (operator === '') {
+        if (!operator) {
             firstNumber += e.target.textContent;
-
-            const userInput = document.querySelector('#user-input');
             userInput.textContent = firstNumber;
+        }
+        else if (operator && !result) {
+            secondNumber += e.target.textContent;
+            userInput.textContent = `${firstNumber} ${operator} ${secondNumber}`;
         }
         else {
             secondNumber += e.target.textContent;
-
-            const userInput = document.querySelector('#user-input');
             userInput.textContent = `${firstNumber} ${operator} ${secondNumber}`;
         }
     }
@@ -171,5 +182,56 @@ percentage.addEventListener('click', e => {
             const userInput = document.querySelector('#user-input');
             userInput.textContent = `${firstNumber} ${operator} ${secondNumber}`;
         }
+    }
+})
+
+// 'equal' button
+const equal = document.querySelector('#equal');
+
+equal.addEventListener('click', e => {
+
+    function operate(firstNumber, operator, secondNumber) {
+
+        let result = '';
+
+        switch (operator) {
+            case '+':
+                result = firstNumber + secondNumber;
+                return Number.isInteger(result) ? result : Number.parseFloat(result).toFixed(4);
+                break;
+
+            case '-':
+                result = firstNumber - secondNumber;
+                return Number.isInteger(result) ? result : Number.parseFloat(result).toFixed(4);
+                break;
+
+            case 'x':
+                result = firstNumber * secondNumber;
+                return Number.isInteger(result) ? result : Number.parseFloat(result).toFixed(4);
+                break;
+
+            case '/':
+                result = secondNumber === 0.0 ? 'ERROR' : firstNumber / secondNumber;
+                if (result !== 'ERROR') {
+                    result = Number.parseFloat(result).toFixed(4);
+                    return result;
+                }
+                else {
+                    return 'ERROR'
+                }
+                break;
+        }
+    }
+
+    const result = document.querySelector('#calculate');
+
+    if (secondNumber && typeof secondNumber === 'string') {
+        firstNumber = firstNumber.endsWith('%') ? +firstNumber.slice(0, -1) / 100.0 : +firstNumber;
+        secondNumber = secondNumber.endsWith('%') ? +secondNumber.slice(0, -1) / 100.0 : +secondNumber;
+
+        result.textContent = operate(firstNumber, operator, secondNumber)
+    }
+    else {
+        return;
     }
 })
